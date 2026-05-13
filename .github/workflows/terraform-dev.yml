@@ -6,6 +6,16 @@ on:
     paths:
       - 'environments/dev/**'
       - 'modules/**'
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action à effectuer'
+        required: true
+        default: 'apply'
+        type: choice
+        options:
+          - apply
+          - destroy
 
 jobs:
   terraform-dev:
@@ -49,5 +59,10 @@ jobs:
 
       - name: Terraform Apply
         working-directory: environments/dev
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && github.event.inputs.action != 'destroy'
         run: terraform apply -auto-approve
+
+      - name: Terraform Destroy
+        working-directory: environments/dev
+        if: github.event.inputs.action == 'destroy'
+        run: terraform destroy -auto-approve
