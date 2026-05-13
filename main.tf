@@ -53,5 +53,5 @@ module "sql" {
   resource_group_name = azurerm_resource_group.rg.name
   sql_admin_login     = var.sql_admin_login
   sql_admin_password  = var.sql_admin_password
-  
+
 }
