@@ -40,3 +40,4 @@ variable "enable_sql" {
 # trigger
 # trigger
 # debug
+# debug2
