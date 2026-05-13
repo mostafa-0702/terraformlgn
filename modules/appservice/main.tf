@@ -15,7 +15,7 @@ resource "azurerm_service_plan" "asp" {
 
 ############# APP SERVICE ############
 resource "azurerm_linux_web_app" "app" {
-  name                = "app-${var.project_name}-${var.environment}"
+  name                = "appmm-${var.project_name}-${var.environment}"
   resource_group_name = var.resource_group_name
   location            = var.location
   service_plan_id     = azurerm_service_plan.asp.id
