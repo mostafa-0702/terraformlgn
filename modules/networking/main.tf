@@ -3,7 +3,7 @@ resource "azurerm_virtual_network" "vnet" {
   name                = "vnet-${var.project_name}-${var.environment}"
   location            = var.location
   resource_group_name = var.resource_group_name
-  address_space       = ["10.0.0.0/16"]
+  address_space       = ["192.168.0.0/16"]
 
   tags = {
     environment = var.environment
@@ -30,7 +30,7 @@ resource "azurerm_subnet" "snet" {
   name                 = "snet-${var.project_name}-${var.environment}"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.1.0/24"]
+  address_prefixes     = ["192.168.1.0/24"]
 }
 
 ############# NSG ASSOCIATION ############
