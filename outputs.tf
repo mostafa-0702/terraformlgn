@@ -1,27 +1,27 @@
+output "vnet_name" {
+  value = module.networking.vnet_name
+}
+
+output "subnet_name" {
+  value = module.networking.subnet_name
+}
+
 output "storage_account_name" {
   value = module.storage.storage_account_name
 }
 
-output "primary_blob_endpoint" {
-  value = module.storage.primary_blob_endpoint
-}
 output "app_service_url" {
   value = module.appservice.app_service_url
 }
 
-output "app_service_name" {
-  value = module.appservice.app_service_name
-}
-
-
 output "sql_server_name" {
-  value = module.sql.sql_server_name
+  value = var.enable_sql ? module.sql[0].sql_server_name : "SQL désactivé"
 }
 
 output "sql_server_fqdn" {
-  value = module.sql.sql_server_fqdn
+  value = var.enable_sql ? module.sql[0].sql_server_fqdn : "SQL désactivé"
 }
 
 output "sql_database_name" {
-  value = module.sql.sql_database_name
+  value = var.enable_sql ? module.sql[0].sql_database_name : "SQL désactivé"
 }
