@@ -1,13 +1,15 @@
-name: Terraform Azure
+name: Terraform Staging
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches: [staging]
+    paths:
+      - 'environments/staging/**'
+      - 'modules/**'
 
 jobs:
-  terraform:
+  terraform-staging:
+    name: Deploy Staging
     runs-on: ubuntu-latest
 
     env:
@@ -18,7 +20,7 @@ jobs:
       TF_VAR_subscription_id:    ${{ secrets.ARM_SUBSCRIPTION_ID }}
       TF_VAR_sql_admin_login:    ${{ secrets.TF_VAR_SQL_ADMIN_LOGIN }}
       TF_VAR_sql_admin_password: ${{ secrets.TF_VAR_SQL_ADMIN_PASSWORD }}
-      TF_VAR_enable_sql:         ${{ secrets.TF_VAR_ENABLE_SQL }}
+      TF_VAR_enable_sql:         "true"
 
     steps:
       - name: Checkout
@@ -30,17 +32,22 @@ jobs:
           terraform_version: "1.12.0"
 
       - name: Terraform Init
+        working-directory: environments/staging
         run: terraform init
 
       - name: Terraform Format
+        working-directory: environments/staging
         run: terraform fmt -check
 
       - name: Terraform Validate
+        working-directory: environments/staging
         run: terraform validate
 
       - name: Terraform Plan
+        working-directory: environments/staging
         run: terraform plan
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
+        working-directory: environments/staging
+        if: github.ref == 'refs/heads/staging'
         run: terraform apply -auto-approve
